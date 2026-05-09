@@ -3,7 +3,6 @@
 
 using namespace std;
 
-// Maximum number of courses allowed in the system
 const int MAX_COURSES = 50;
 
 class Course {
@@ -14,7 +13,7 @@ private:
     int enrolledStudents;
 
 public:
-    // Constructor
+
     Course() : courseCode(""), courseName(""), maxCapacity(0), enrolledStudents(0) {}
 
     Course(string code, string name, int capacity) {
@@ -24,7 +23,7 @@ public:
         enrolledStudents = 0;
     }
 
-    // Getters for searching
+    
     string getCode() { return courseCode; }
     string getName() { return courseName; }
 
@@ -58,7 +57,7 @@ public:
 
 class RegistrationSystem {
 private:
-    Course courses[MAX_COURSES]; // Array of objects
+    Course courses[MAX_COURSES];
     int courseCount;
 
 public:
