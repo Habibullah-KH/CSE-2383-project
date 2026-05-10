@@ -1,9 +1,7 @@
 #include <iostream>
-#include <string>
-
 using namespace std;
 
-const int MAX_COURSES = 50;
+const int maxCourseSize = 50;
 
 class Course {
 private:
@@ -14,7 +12,12 @@ private:
 
 public:
 
-    Course() : courseCode(""), courseName(""), maxCapacity(0), enrolledStudents(0) {}
+    Course() {
+    courseCode = "";
+    courseName = "";
+    maxCapacity = 0;
+    enrolledStudents = 0;
+}
 
     Course(string code, string name, int capacity) {
         courseCode = code;
@@ -28,17 +31,17 @@ public:
     string getName() { return courseName; }
 
     bool isFull() {
-        return enrolledStudents >= maxCapacity;
+        return enrolledStudents > maxCapacity;
     }
 
     void displayDetails() {
-        cout << "Code: " << courseCode << " | Name: " << courseName 
-             << " | Capacity: " << maxCapacity << " | Enrolled: " << enrolledStudents << endl;
+        cout << "Code: " << courseCode << " --|-- Name: " << courseName 
+             << " --|-- Capacity: " << maxCapacity << " --|-- Enrolled: " << enrolledStudents << endl;
     }
 
     void registerStudent() {
         if (isFull()) {
-            cout << "Warning: Course is full! Enrollment blocked." << endl;
+            cout << " Course is full! You can't enrol." << endl;
         } else {
             enrolledStudents++;
             cout << "Registration successful." << endl;
@@ -48,23 +51,23 @@ public:
     void dropStudent() {
         if (enrolledStudents > 0) {
             enrolledStudents--;
-            cout << "Student dropped successfully." << endl;
+            cout << "Student dropped successfull." << endl;
         } else {
-            cout << "Error: No students currently enrolled in this course." << endl;
+            cout << "6No students currently enrolled in this course." << endl;
         }
     }
 };
 
 class RegistrationSystem {
 private:
-    Course courses[MAX_COURSES];
+    Course courses[maxCourseSize];
     int courseCount;
 
 public:
     RegistrationSystem() : courseCount(0) {}
 
     void addCourse() {
-        if (courseCount >= MAX_COURSES) {
+        if (courseCount >= maxCourseSize) {
             cout << "System Error: Cannot add more courses (Array Overflow)." << endl;
             return;
         }
@@ -73,7 +76,7 @@ public:
         int cap;
         cout << "Enter Course Code: "; cin >> code;
         cout << "Enter Course Name: "; cin.ignore(); getline(cin, name);
-        cout << "Enter Max Capacity: "; cin >> cap;
+        cout << "Enter Max Capacity of sit: "; cin >> cap;
 
         courses[courseCount++] = Course(code, name, cap);
         cout << "Course added successfully!" << endl;
@@ -107,14 +110,14 @@ public:
     }
 
     void generateFullReport() {
-        cout << "\n--- All Courses Report ---" << endl;
+        cout << "\n--->> All Courses Report <<---" << endl;
         for (int i = 0; i < courseCount; i++) {
             courses[i].displayDetails();
         }
     }
 
     void generateFullCapacityReport() {
-        cout << "\n--- Full Courses Only ---" << endl;
+        cout << "\n--->> Full Courses Only <<---" << endl;
         for (int i = 0; i < courseCount; i++) {
             if (courses[i].isFull()) {
                 courses[i].displayDetails();
@@ -128,7 +131,7 @@ int main() {
     int choice;
 
     do {
-        cout << "\n--- Student Course Registration System ---" << endl;
+        cout << "\n---> Student Course Registration System <---" << endl;
         cout << "1. Add Course\n2. Register Student\n3. Drop Student\n4. Search Course\n5. Full Course Report\n6. Full Capacity Report\n0. Exit" << endl;
         cout << "Enter choice: ";
         cin >> choice;
