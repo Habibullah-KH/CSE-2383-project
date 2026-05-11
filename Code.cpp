@@ -174,8 +174,6 @@ int main() {
 
     do {
         cout << "\n---> Student Course Registration System <---" << endl;
-<<<<<<< HEAD
-
         cout << "1. Add Course" << endl;
         cout << "2. Register Student" << endl;
         cout << "3. Drop Student" << endl;
@@ -187,12 +185,6 @@ int main() {
 
         cin >> option;
 
-=======
-        cout << "1. Add Course\n2. Register Student\n3. Drop Student\n4. Search Course\n5. Full Course Report\n6. Full Capacity Report\n0. Exit" << endl;
-        cout << "Enter choice: ";
-        cin >> option;
-
->>>>>>> d6bcc967882216605f78337a02e175cbfed0e3a7
         switch (option) {
             case 1: system.addCourse(); break;
             case 2: system.courseRegister(); break;
