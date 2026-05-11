@@ -30,17 +30,21 @@ public:
     string getCode() { return courseCode; }
     string getName() { return courseName; }
 
-    bool isFull() {
-        return enrolledStudents > maxCapacity;
-    }
+    bool sizeCheck (){
+        if (enrolledStudents >= maxCapacity){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }  
 
     void displayDetails() {
-        cout << "Code: " << courseCode << " --|-- Name: " << courseName 
-             << " --|-- Capacity: " << maxCapacity << " --|-- Enrolled: " << enrolledStudents << endl;
+        cout << " " << endl << "> Course-Code: " << courseCode << endl << " " << endl << "> Course-Name: " << courseName << endl << " " << endl << "> Sit-Capacity: " << maxCapacity << endl << " " << endl << "> Enrolled-student: " << enrolledStudents << endl << " " << endl;
     }
 
     void registerStudent() {
-        if (isFull()) {
+        if (sizeCheck()) {
             cout << " Course is full! You can't enrol." << endl;
         } else {
             enrolledStudents++;
@@ -53,18 +57,21 @@ public:
             enrolledStudents--;
             cout << "Student dropped successfull." << endl;
         } else {
-            cout << "6No students currently enrolled in this course." << endl;
+            cout << "No students currently enrolled in this course." << endl;
         }
     }
 };
 
 class RegistrationSystem {
 private:
-    Course courses[maxCourseSize];
-    int courseCount;
+Course courses[maxCourseSize];
+
+int courseCount;
 
 public:
-    RegistrationSystem() : courseCount(0) {}
+    RegistrationSystem() {
+        courseCount = 0;
+    }
 
     void addCourse() {
         if (courseCount >= maxCourseSize) {
@@ -73,10 +80,16 @@ public:
         }
 
         string code, name;
+
         int cap;
-        cout << "Enter Course Code: "; cin >> code;
-        cout << "Enter Course Name: "; cin.ignore(); getline(cin, name);
-        cout << "Enter Max Capacity of sit: "; cin >> cap;
+
+        cout << "Enter Course Code: "; 
+        cin >> code;
+        cout << "Enter Course Name: "; 
+        cin.ignore(); 
+        getline(cin, name);
+        cout << "Enter Max Capacity of sit: "; 
+        cin >> cap;
 
         courses[courseCount++] = Course(code, name, cap);
         cout << "Course added successfully!" << endl;
@@ -96,13 +109,37 @@ public:
         if (!found) cout << "Course not found." << endl;
     }
 
-    void manageRegistration(bool isRegistering) {
+    void courseDrop(){
+        
+        if(courseCount <= 0){
+             cout << "Courses are not added yet! Please add course first " << endl;
+             return;
+        }
+
         string code;
         cout << "Enter Course Code: "; cin >> code;
         for (int i = 0; i < courseCount; i++) {
             if (courses[i].getCode() == code) {
-                if (isRegistering) courses[i].registerStudent();
-                else courses[i].dropStudent();
+                courses[i].dropStudent();
+                return;
+            }
+        }
+        cout << "Invalid Course Code." << endl;
+    }
+
+    
+    void courseRegister(){
+
+                if(courseCount <= 0){
+             cout << "Courses are not added yet! Please add course first " << endl;
+             return;
+        }
+
+        string code;
+        cout << "Enter Course Code: "; cin >> code;
+        for (int i = 0; i < courseCount; i++) {
+            if (courses[i].getCode() == code) {
+                courses[i].registerStudent();
                 return;
             }
         }
@@ -110,43 +147,56 @@ public:
     }
 
     void generateFullReport() {
-        cout << "\n--->> All Courses Report <<---" << endl;
+        cout << "\n>> All Courses Report <<" << endl;
         for (int i = 0; i < courseCount; i++) {
             courses[i].displayDetails();
         }
+        cout << "Total course: " << courseCount << endl;
     }
 
     void generateFullCapacityReport() {
-        cout << "\n--->> Full Courses Only <<---" << endl;
+        cout << "\n>> Full Courses Only <<" << endl;
         for (int i = 0; i < courseCount; i++) {
-            if (courses[i].isFull()) {
+            if (courses[i].sizeCheck()) {
                 courses[i].displayDetails();
             }
+        }
+
+        if(courseCount <= 0){
+             cout << "Courses are not added yet! Please add course first " << endl;
         }
     }
 };
 
 int main() {
     RegistrationSystem system;
-    int choice;
+    int option;
 
     do {
         cout << "\n---> Student Course Registration System <---" << endl;
-        cout << "1. Add Course\n2. Register Student\n3. Drop Student\n4. Search Course\n5. Full Course Report\n6. Full Capacity Report\n0. Exit" << endl;
-        cout << "Enter choice: ";
-        cin >> choice;
 
-        switch (choice) {
+        cout << "1. Add Course" << endl;
+        cout << "2. Register Student" << endl;
+        cout << "3. Drop Student" << endl;
+        cout << "4. Search Course" << endl;
+        cout << "5. Full Course Report" << endl;
+        cout << "6. Full Capacity Report" << endl;
+        cout << "0. Exit" << endl;
+        cout << "Enter the menu number: ";
+
+        cin >> option;
+
+        switch (option) {
             case 1: system.addCourse(); break;
-            case 2: system.manageRegistration(true); break;
-            case 3: system.manageRegistration(false); break;
+            case 2: system.courseRegister(); break;
+            case 3: system.courseDrop(); break;
             case 4: system.searchCourse(); break;
             case 5: system.generateFullReport(); break;
             case 6: system.generateFullCapacityReport(); break;
-            case 0: cout << "Exiting..." << endl; break;
+            case 0: cout << ">> Exiting <<" << endl; break;
             default: cout << "Invalid choice!" << endl;
         }
-    } while (choice != 0);
+    } while (option != 0);
 
     return 0;
 }
