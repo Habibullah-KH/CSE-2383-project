@@ -40,7 +40,7 @@ public:
     }  
 
     void displayDetails() {
-        cout << " " << endl << "> Course-Code: " << courseCode << endl << " " << endl << "> Course-Name: " << courseName << endl << " " << endl << "> Sit-Capacity: " << maxCapacity << endl << " " << endl << "> Enrolled-student: " << enrolledStudents << endl << " " << endl;
+        cout << " " << endl << "> Course-Code: " << courseCode << endl << " " << endl << "> Course-Name: " << courseName << endl << " " << endl << "> Sit-Capacity: " << maxCapacity << endl << " " << endl << "> Enrolled-student: " << enrolledStudents << endl << "============" << endl;
     }
 
     void registerStudent() {
@@ -73,7 +73,7 @@ public:
         courseCount = 0;
     }
 
-    void addCourse() {
+    void creatCourses() {
         if (courseCount >= maxCourseSize) {
             cout << "System Error: Cannot add more courses (Array Overflow)." << endl;
             return;
@@ -91,11 +91,21 @@ public:
         cout << "Enter Max Capacity of sit: "; 
         cin >> cap;
 
+        for (int i = 0; i < courseCount; i++) {
+           if(courses[i].getName() == name && courses[i].getCode() == code){
+            cout << "==================" << endl;
+            cout << "Course can't be copyed or duplicate";
+            return;
+           }
+       }
         courses[courseCount++] = Course(code, name, cap);
+
         cout << "Course added successfully!" << endl;
+        
+        cout << "Total course: " << courseCount << endl;
     }
 
-    void searchCourse() {
+    void search() {
         string query;
         cout << "Enter Course Code or Name to search: ";
         cin >> query;
@@ -186,10 +196,10 @@ int main() {
         cin >> option;
 
         switch (option) {
-            case 1: system.addCourse(); break;
+            case 1: system.creatCourses(); break;
             case 2: system.courseRegister(); break;
             case 3: system.courseDrop(); break;
-            case 4: system.searchCourse(); break;
+            case 4: system.search(); break;
             case 5: system.generateFullReport(); break;
             case 6: system.generateFullCapacityReport(); break;
             case 0: cout << ">> Exiting <<" << endl; break;
